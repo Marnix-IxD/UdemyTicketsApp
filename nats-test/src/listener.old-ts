@@ -1,0 +1,79 @@
+import nats, { Message, Stan } from 'node-nats-streaming';
+import { randomBytes } from 'crypto';
+import { TicketCreatedListener } from './events/ticket-created-listener';
+//kubectl get pods
+//Port forwarding: kubectl port-forward <insert pod id> 4222:4222
+//Port forwarding: kubectl port-forward <insert pod id> 8222:8222
+//Monitoring http://localhost:8222/streaming/channelsz?subs=1
+console.clear();
+
+//Class 279, random ID used to generate Client ID for connecting to publisher.
+const stan = nats.connect('ticketapp', randomBytes(4).toString('hex'), {
+  url: 'http://localhost:4222'
+});
+
+stan.on('connect',()=>{
+  console.log('Listener connected to NATS');
+
+  stan.on('close', ()=>{
+    console.log('Closing NATS streaming connection');
+    process.exit();
+  });
+
+  //The commented out code below has been simplified by a child listener, class 293
+  new TicketCreatedListener(stan).listen();
+  
+  /*To set options you can chain them on
+  const options = stan.subscriptionOptions()
+    .setManualAckMode(true)
+    //Class 290 explains how Set durable name / deliver all available and queue group name works together
+    //It will re-deliver all previous events once until processed, 
+    //The queue group name tells Nats to not delete events on termination
+    //Durable name defines which events to get back on startup
+    .setDeliverAllAvailable()
+    .setDurableName('nats-test-listener');
+    
+  //Second argument is the queue group, which basically choses the instance of the listener which the message is being sent to.
+  const subscription = stan.subscribe(
+    'ticket:created', 
+    'ordersServiceQueueGroup', 
+    options
+  );
+
+  subscription.on('message', (msg: Message) =>{
+    const data = msg.getData();
+
+    if (typeof data === 'string') {
+      console.log(`Received event #${msg.getSequence()}, with data: ${data}`);
+    }
+
+    msg.ack();
+  });*/
+});
+
+//Interupt signal
+process.on('SIGINT', () => stan.close());
+//Terminate signal
+process.on('SIGTERM', () => stan.close());
+
+/* Node.js Signal events:
+
+'SIGUSR1' is reserved by Node.js to start the debugger. It's possible to install a listener but doing so might interfere with the debugger.
+'SIGTERM' and 'SIGINT' have default handlers on non-Windows platforms that reset the terminal mode before exiting with code 128 + signal number. If one of these signals has a listener installed, its default behavior will be removed (Node.js will no longer exit).
+'SIGPIPE' is ignored by default. It can have a listener installed.
+'SIGHUP' is generated on Windows when the console window is closed, and on other platforms under various similar conditions. See signal(7). It can have a listener installed, however Node.js will be unconditionally terminated by Windows about 10 seconds later. On non-Windows platforms, the default behavior of SIGHUP is to terminate Node.js, but once a listener has been installed its default behavior will be removed.
+'SIGTERM' is not supported on Windows, it can be listened on.
+'SIGINT' from the terminal is supported on all platforms, and can usually be generated with Ctrl+C (though this may be configurable). It is not generated when terminal raw mode is enabled and Ctrl+C is used.
+'SIGBREAK' is delivered on Windows when Ctrl+Break is pressed. On non-Windows platforms, it can be listened on, but there is no way to send or generate it.
+'SIGWINCH' is delivered when the console has been resized. On Windows, this will only happen on write to the console when the cursor is being moved, or when a readable tty is used in raw mode.
+'SIGKILL' cannot have a listener installed, it will unconditionally terminate Node.js on all platforms.
+'SIGSTOP' cannot have a listener installed.
+'SIGBUS', 'SIGFPE', 'SIGSEGV' and 'SIGILL', when not raised artificially using kill(2), inherently leave the process in a state from which it is not safe to call JS listeners. Doing so might cause the process to stop responding.
+0 can be sent to test for the existence of a process, it has no effect if the process exists, but will throw an error if the process does not exist.
+Windows does not support signals so has no equivalent to termination by signal, but Node.js offers some emulation with process.kill(), and subprocess.kill():
+
+Sending SIGINT, SIGTERM, and SIGKILL will cause the unconditional termination of the target process, and afterwards, subprocess will report that the process was terminated by signal.
+Sending signal 0 can be used as a platform independent way to test for the existence of a process.
+*/
+
+

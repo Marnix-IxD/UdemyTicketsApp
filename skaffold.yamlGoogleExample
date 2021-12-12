@@ -1,0 +1,22 @@
+apiVersion: skaffold/v2beta8
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  #local:
+  #  push: false
+  googleCloudBuild:
+    projectId: ticket-app-dev-293615
+    dockerImage: gcr.io/cloud-builders/docker
+  artifacts:
+    # This is the default format for Google cloud images: us.gcr.io/projectID/service name
+    - image: eu.gcr.io/ticket-app-dev-293615/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
