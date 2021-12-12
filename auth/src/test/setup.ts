@@ -7,13 +7,15 @@ declare global {
   var getAuthCookie: () => Promise<string[]>; //<> <<- this defines how the function resolves, in the case of cookie it's an array of strings.
 }
 
+jest.useFakeTimers("legacy"); // As of Jest 26+ there is something weird about timers now, not fixed or discussed but Lecture 463 onwards covers this part.
+
 let mongo: any;
 
 beforeAll(async () => {
   process.env.JWT_KEY = 'asfsfdsf';
 
-  mongo = new MongoMemoryServer();
-  const mongoUri = await mongo.getUri();
+  mongo = await MongoMemoryServer.create();
+  const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri/*, {
     useNewUrlParser: true,
