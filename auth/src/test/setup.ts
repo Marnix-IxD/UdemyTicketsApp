@@ -12,8 +12,8 @@ let mongo: any;
 beforeAll(async () => {
   process.env.JWT_KEY = 'asfsfdsf';
 
-  mongo = new MongoMemoryServer();
-  const mongoUri = await mongo.getUri();
+  mongo = await MongoMemoryServer.create();
+  const mongoUri = mongo.getUri();
 
   await mongoose.connect(mongoUri/*, {
     useNewUrlParser: true,
