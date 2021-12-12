@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { app } from './app';
 
 const startUpApp = async () => {
+  console.log('Starting up Auth Microservice...');
   //Start checking ENV variables being set before startup
   if(!process.env.JWT_KEY){
     throw new Error('JWT_KEY has not been defined in the deployment package, check infra/k8s');
