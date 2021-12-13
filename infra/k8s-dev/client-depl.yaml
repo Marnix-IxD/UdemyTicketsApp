@@ -15,6 +15,9 @@ spec:
       containers:
         - name: client
           image: mpuijker/client
+          env:
+            - name: NGINX_URL
+              value: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local'
 ---
 apiVersion: v1
 kind: Service
