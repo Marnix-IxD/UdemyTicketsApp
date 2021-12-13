@@ -7,7 +7,7 @@ const buildClient = ({ req }) => {
     //http://SERVICE-NAME.NAMESPACE.svc.clust.local/ 
     //Pass along ALL headers on the initial request as it contains the Host header which points to the ingress.srv.yaml host
     return axios.create({
-      baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
+      baseURL: process.env.NGINX_URL,
       headers: req.headers
     });
   } else {
