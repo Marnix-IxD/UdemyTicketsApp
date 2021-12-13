@@ -29,7 +29,7 @@ const startUpApp = async () => {
     );
 
     natsWrapper.client.on('close', ()=>{
-      console.log('Closing NATS streaming connection');
+      console.log('Expiration microservice is closing NATS streaming connection');
       process.exit();
     });
 
