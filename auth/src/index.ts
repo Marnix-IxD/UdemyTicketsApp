@@ -19,7 +19,7 @@ const startUpApp = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true
     } as ConnectOptions*/);
-    console.log('Connected to MongoDB');
+    console.log('Auth microservice connected to MongoDB');
   } catch (err) {
     console.error(err);
   }
