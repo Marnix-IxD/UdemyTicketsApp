@@ -7,6 +7,7 @@ declare global {
 }
 
 jest.mock('../nats-wrapper');
+jest.useFakeTimers("legacy"); // As of Jest 26+ there is something weird about timers now, not fixed or discussed but Lecture 463 onwards covers this part.
 
 let mongo: MongoMemoryServer;
 
