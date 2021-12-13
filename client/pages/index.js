@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 const HomePage = ({ currentUser, tickets }) => {
-  //return <h1>{currentUser ? `You\'re signed in.` : `You're NOT signed in.`}</h1>
   const ticketList = tickets.map(ticket => {
     return (
       <tr key={ticket.id}>

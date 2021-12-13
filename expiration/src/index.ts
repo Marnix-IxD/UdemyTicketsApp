@@ -3,7 +3,8 @@ import { OrderCreatedListener } from './events/listeners/order-created-listener'
 import { expirationWorker } from './workers/expiration-worker';
 
 const startUpApp = async () => {
-  console.log('Starting up Expiration Microservice...');
+  console.log('Starting up expiration microservice...');
+
   //Start checking ENV variables being set before startup
   if(!process.env.NATS_CLIENT_ID){
     throw new Error('NATS_CLIENT_ID has not been defined in the deployment package, check infra/k8s');

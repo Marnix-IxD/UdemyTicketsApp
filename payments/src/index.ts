@@ -5,7 +5,8 @@ import { OrderCancelledListener } from './events/listeners/order-cancelled-liste
 import { OrderCreatedListener } from './events/listeners/order-created-listener';
 
 const startUpApp = async () => {
-  console.log('Starting up Payments Microservice...');
+  console.log('Starting up payments microservice...');
+
   //Start checking ENV variables being set before startup
   if(!process.env.NATS_CLIENT_ID){
     throw new Error('NATS_CLIENT_ID has not been defined in the deployment package, check infra/k8s');
