@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { app } from './app';
 
 const startUpApp = async () => {
-  console.log('Starting up Auth Microservice...');
+  console.log('Starting up auth microservice...');
   
   //Start checking ENV variables being set before startup
   if(!process.env.JWT_KEY){

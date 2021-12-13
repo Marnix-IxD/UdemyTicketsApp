@@ -7,7 +7,8 @@ import { ExpirationCompleteListener } from './events/listeners/expiration-comple
 import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
 
 const startUpApp = async () => {
-  console.log('Starting up Orders Microservice...');
+  console.log('Starting up orders microservice...');
+
   //Start checking ENV variables being set before startup
   if(!process.env.NATS_CLIENT_ID){
     throw new Error('NATS_CLIENT_ID has not been defined in the deployment package, check infra/k8s');
