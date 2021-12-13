@@ -17,7 +17,7 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: process.env.HTTPS_ENABLED !== 'false'
+    secure: false
   })
 );
 //Use currentUser always after the cookie check first otherwise it won't work.

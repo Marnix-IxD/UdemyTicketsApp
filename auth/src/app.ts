@@ -16,7 +16,7 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: process.env.HTTPS_ENABLED !== 'false'
+    secure: false
   })
 );
 
