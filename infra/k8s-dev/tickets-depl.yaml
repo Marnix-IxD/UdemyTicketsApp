@@ -26,8 +26,8 @@ spec:
               value: ticketapp
             - name: MONGO_URI
               value: 'mongodb://tickets-mongo-srv:27017/tickets'
-            - name: NODE_ENV
-              value: 'test'
+            - name: HTTPS_ENABLED
+              value: 'false'
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
