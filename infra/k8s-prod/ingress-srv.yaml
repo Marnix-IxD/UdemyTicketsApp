@@ -51,7 +51,7 @@ kind: Service
 metadata:
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
-    service.beta.kubernetes.io/do-loadbalancer-hostname: 'www.udemy-ticket-app.xyz/'
+    service.beta.kubernetes.io/do-loadbalancer-hostname: 'www.udemy-ticket-app.xyz'
   labels:
     helm.sh/chart: ingress-nginx-4.0.13
     app.kubernetes.io/name: ingress-nginx

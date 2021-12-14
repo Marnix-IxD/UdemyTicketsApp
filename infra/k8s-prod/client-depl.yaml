@@ -17,7 +17,7 @@ spec:
           image: mpuijker/client
           env:
             - name: NGINX_URL
-              value: 'http://www.udemy-ticket-app.xyz/'
+              value: 'http://www.udemy-ticket-app.xyz'
 ---
 apiVersion: v1
 kind: Service
